@@ -1,0 +1,811 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_MMCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CATEGORIA">
+          <Key>
+            <PropertyRef Name="ID_CATEGORIA" />
+          </Key>
+          <Property Name="ID_CATEGORIA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="URL_IMAGEN" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ESTADO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DETALLE_VENTA">
+          <Key>
+            <PropertyRef Name="ID_ITEM" />
+          </Key>
+          <Property Name="ID_ITEM" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_VENTA" Type="int" Nullable="false" />
+          <Property Name="ID_PRODUCTO" Type="int" Nullable="false" />
+          <Property Name="CANTIDAD" Type="int" Nullable="false" />
+          <Property Name="SUB_TOTAL" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ENTREGA_PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_ENTREGA" />
+          </Key>
+          <Property Name="ID_ENTREGA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_VENTA" Type="int" Nullable="false" />
+          <Property Name="FECHA_SALIDA" Type="datetime" />
+          <Property Name="FECHA_ENTREGA" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_PRODUCTO" />
+          </Key>
+          <Property Name="ID_PRODUCTO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_CATEGORIA" Type="int" Nullable="false" />
+          <Property Name="ID_TEMPORADA" Type="int" Nullable="false" />
+          <Property Name="NOMBRE_PRODUCTO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="PRECIO_PRODUCCION" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="PRECIO_VENTA" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="PROMEDIO_RESENA" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="STOCK_TOTAL" Type="int" Nullable="false" />
+          <Property Name="URL_IMAGEN" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ESTADO" Type="int" Nullable="false" />
+          <Property Name="TALLA" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DESCUENTO" Type="int" />
+        </EntityType>
+        <EntityType Name="RESENA">
+          <Key>
+            <PropertyRef Name="ID_RESENA" />
+          </Key>
+          <Property Name="ID_RESENA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PRODUCTO" Type="int" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="CALIFICACION" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROLES">
+          <Key>
+            <PropertyRef Name="ID_ROL" />
+          </Key>
+          <Property Name="ID_ROL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ROL" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TEMPORADA">
+          <Key>
+            <PropertyRef Name="ID_TEMPORADA" />
+          </Key>
+          <Property Name="ID_TEMPORADA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOM_TEMPORADA" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRES" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="APELLIDOS" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PASSWORD" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="DIRECCION" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="EDAD" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="DNI" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="ID_ROL" Type="int" Nullable="false" />
+          <Property Name="FECHA_CREACION" Type="datetime" Nullable="false" />
+          <Property Name="TOKEN_RECOVERY" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="VENTA">
+          <Key>
+            <PropertyRef Name="ID_VENTA" />
+          </Key>
+          <Property Name="ID_VENTA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="FECHA_HORA" Type="datetime" Nullable="false" />
+          <Property Name="TOTAL" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="ESTADO" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BOLETA_PRODUCTO">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="DETALLE_VENTA" Type="Self.DETALLE_VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Principal>
+            <Dependent Role="DETALLE_VENTA">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOLETA_VENTA">
+          <End Role="VENTA" Type="Self.VENTA" Multiplicity="1" />
+          <End Role="DETALLE_VENTA" Type="Self.DETALLE_VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Principal>
+            <Dependent Role="DETALLE_VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ENTREGAPROD_VENTA">
+          <End Role="VENTA" Type="Self.VENTA" Multiplicity="1" />
+          <End Role="ENTREGA_PRODUCTO" Type="Self.ENTREGA_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Principal>
+            <Dependent Role="ENTREGA_PRODUCTO">
+              <PropertyRef Name="ID_VENTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_CATEGORIA">
+          <End Role="CATEGORIA" Type="Self.CATEGORIA" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIA">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_TEMPORADA">
+          <End Role="TEMPORADA" Type="Self.TEMPORADA" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEMPORADA">
+              <PropertyRef Name="ID_TEMPORADA" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="ID_TEMPORADA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RESENA_PRODUCTO">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="RESENA" Type="Self.RESENA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Principal>
+            <Dependent Role="RESENA">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RESENA_USUARIO">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="RESENA" Type="Self.RESENA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="RESENA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIO_ROLES">
+          <End Role="ROLES" Type="Self.ROLES" Multiplicity="1" />
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="USUARIO">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENTA_USUARIO">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="VENTA" Type="Self.VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="VENTA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="listaProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="busqueda" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_cancelarventa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idventa" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_confirmarventa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idventa" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_contarVentas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="mes" Type="int" Mode="In" />
+          <Parameter Name="año" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_emailproductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="iduser" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="sp_fechaentrega" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idventa" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="sp_fechasalida" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idventa" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="sp_gananciasTienda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="mes" Type="int" Mode="In" />
+          <Parameter Name="año" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_generarventa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="iduser" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="sp_insertdetalleventa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="iduser" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+          <Parameter Name="idprod" Type="int" Mode="In" />
+          <Parameter Name="cantidad" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_nuevosUsuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="mes" Type="int" Mode="In" />
+          <Parameter Name="año" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_resena" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="calificacion" Type="int" Mode="In" />
+          <Parameter Name="idprod" Type="int" Mode="In" />
+          <Parameter Name="iduser" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="DB_MMCModelStoreContainer">
+          <EntitySet Name="CATEGORIA" EntityType="Self.CATEGORIA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DETALLE_VENTA" EntityType="Self.DETALLE_VENTA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ENTREGA_PRODUCTO" EntityType="Self.ENTREGA_PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RESENA" EntityType="Self.RESENA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROLES" EntityType="Self.ROLES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TEMPORADA" EntityType="Self.TEMPORADA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VENTA" EntityType="Self.VENTA" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BOLETA_PRODUCTO" Association="Self.FK_BOLETA_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="DETALLE_VENTA" EntitySet="DETALLE_VENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOLETA_VENTA" Association="Self.FK_BOLETA_VENTA">
+            <End Role="VENTA" EntitySet="VENTA" />
+            <End Role="DETALLE_VENTA" EntitySet="DETALLE_VENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ENTREGAPROD_VENTA" Association="Self.FK_ENTREGAPROD_VENTA">
+            <End Role="VENTA" EntitySet="VENTA" />
+            <End Role="ENTREGA_PRODUCTO" EntitySet="ENTREGA_PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_CATEGORIA" Association="Self.FK_PRODUCTO_CATEGORIA">
+            <End Role="CATEGORIA" EntitySet="CATEGORIA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_TEMPORADA" Association="Self.FK_PRODUCTO_TEMPORADA">
+            <End Role="TEMPORADA" EntitySet="TEMPORADA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RESENA_PRODUCTO" Association="Self.FK_RESENA_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="RESENA" EntitySet="RESENA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RESENA_USUARIO" Association="Self.FK_RESENA_USUARIO">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="RESENA" EntitySet="RESENA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIO_ROLES" Association="Self.FK_USUARIO_ROLES">
+            <End Role="ROLES" EntitySet="ROLES" />
+            <End Role="USUARIO" EntitySet="USUARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENTA_USUARIO" Association="Self.FK_VENTA_USUARIO">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="VENTA" EntitySet="VENTA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_MMCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="RESENA">
+          <Key>
+            <PropertyRef Name="ID_RESENA" />
+          </Key>
+          <Property Name="ID_RESENA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="CALIFICACION" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="DB_MMCModel.FK_RESENA_PRODUCTO" FromRole="RESENA" ToRole="PRODUCTO" />
+          <NavigationProperty Name="USUARIO" Relationship="DB_MMCModel.FK_RESENA_USUARIO" FromRole="RESENA" ToRole="USUARIO" />
+        </EntityType>
+        <EntityType Name="ROLES">
+          <Key>
+            <PropertyRef Name="ID_ROL" />
+          </Key>
+          <Property Name="ID_ROL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ROL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="USUARIO" Relationship="DB_MMCModel.FK_USUARIO_ROLES" FromRole="ROLES" ToRole="USUARIO" />
+        </EntityType>
+        <EntityContainer Name="DB_MMCEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="RESENA" EntityType="Self.RESENA" />
+          <EntitySet Name="ROLES" EntityType="Self.ROLES" />
+          <EntitySet Name="DETALLE_VENTA" EntityType="DB_MMCModel.DETALLE_VENTA" />
+          <EntitySet Name="TEMPORADA" EntityType="DB_MMCModel.TEMPORADA" />
+          <EntitySet Name="CATEGORIA" EntityType="DB_MMCModel.CATEGORIA" />
+          <FunctionImport Name="sp_contarVentas" ReturnType="Collection(Int32)">
+            <Parameter Name="mes" Mode="In" Type="Int32" />
+            <Parameter Name="año" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_gananciasTienda" ReturnType="Collection(Decimal)">
+            <Parameter Name="mes" Mode="In" Type="Int32" />
+            <Parameter Name="año" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_nuevosUsuarios" ReturnType="Collection(Int32)">
+            <Parameter Name="mes" Mode="In" Type="Int32" />
+            <Parameter Name="año" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_resena" ReturnType="Collection(Int32)">
+            <Parameter Name="calificacion" Mode="In" Type="Int32" />
+            <Parameter Name="idprod" Mode="In" Type="Int32" />
+            <Parameter Name="iduser" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="PRODUCTO" EntityType="DB_MMCModel.PRODUCTO" />
+          <AssociationSet Name="FK_PRODUCTO_CATEGORIA" Association="DB_MMCModel.FK_PRODUCTO_CATEGORIA">
+            <End Role="CATEGORIA" EntitySet="CATEGORIA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOLETA_PRODUCTO" Association="DB_MMCModel.FK_BOLETA_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="DETALLE_VENTA" EntitySet="DETALLE_VENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_TEMPORADA" Association="DB_MMCModel.FK_PRODUCTO_TEMPORADA">
+            <End Role="TEMPORADA" EntitySet="TEMPORADA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RESENA_PRODUCTO" Association="DB_MMCModel.FK_RESENA_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="RESENA" EntitySet="RESENA" />
+          </AssociationSet>
+          <EntitySet Name="VENTA" EntityType="DB_MMCModel.VENTA" />
+          <AssociationSet Name="FK_BOLETA_VENTA" Association="DB_MMCModel.FK_BOLETA_VENTA">
+            <End Role="VENTA" EntitySet="VENTA" />
+            <End Role="DETALLE_VENTA" EntitySet="DETALLE_VENTA" />
+          </AssociationSet>
+          <FunctionImport Name="sp_confirmarventa">
+          <Parameter Name="idventa" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_generarventa">
+            <Parameter Name="iduser" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insertdetalleventa">
+            <Parameter Name="iduser" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="idprod" Mode="In" Type="Int32" />
+            <Parameter Name="cantidad" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="ENTREGA_PRODUCTO" EntityType="DB_MMCModel.ENTREGA_PRODUCTO" />
+          <AssociationSet Name="FK_ENTREGAPROD_VENTA" Association="DB_MMCModel.FK_ENTREGAPROD_VENTA">
+            <End Role="VENTA" EntitySet="VENTA" />
+            <End Role="ENTREGA_PRODUCTO" EntitySet="ENTREGA_PRODUCTO" />
+          </AssociationSet>
+          <FunctionImport Name="sp_emailproductos" ReturnType="Collection(DB_MMCModel.sp_emailproductos_Result)">
+            <Parameter Name="iduser" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_cancelarventa">
+          <Parameter Name="idventa" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_fechaentrega">
+            <Parameter Name="idventa" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_fechasalida">
+            <Parameter Name="idventa" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="USUARIO" EntityType="DB_MMCModel.USUARIO" />
+          <AssociationSet Name="FK_RESENA_USUARIO" Association="DB_MMCModel.FK_RESENA_USUARIO">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="RESENA" EntitySet="RESENA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIO_ROLES" Association="DB_MMCModel.FK_USUARIO_ROLES">
+            <End Role="ROLES" EntitySet="ROLES" />
+            <End Role="USUARIO" EntitySet="USUARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENTA_USUARIO" Association="DB_MMCModel.FK_VENTA_USUARIO">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="VENTA" EntitySet="VENTA" />
+          </AssociationSet>
+          <FunctionImport Name="listaProductos" ReturnType="Collection(DB_MMCModel.listaProductos_Result)">
+            <Parameter Name="busqueda" Mode="In" Type="String" />
+          </FunctionImport>
+          </EntityContainer>
+        <EntityType Name="DETALLE_VENTA">
+          <Key>
+            <PropertyRef Name="ID_ITEM" />
+          </Key>
+          <Property Name="ID_ITEM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_VENTA" Type="Int32" Nullable="false" />
+          <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" />
+          <Property Name="CANTIDAD" Type="Int32" Nullable="false" />
+          <Property Name="SUB_TOTAL" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="PRODUCTO" Relationship="DB_MMCModel.FK_BOLETA_PRODUCTO" FromRole="DETALLE_VENTA" ToRole="PRODUCTO" />
+          <NavigationProperty Name="VENTA" Relationship="DB_MMCModel.FK_BOLETA_VENTA" FromRole="DETALLE_VENTA" ToRole="VENTA" />
+        </EntityType>
+        <EntityType Name="TEMPORADA">
+          <Key>
+            <PropertyRef Name="ID_TEMPORADA" />
+          </Key>
+          <Property Name="ID_TEMPORADA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOM_TEMPORADA" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="DB_MMCModel.FK_PRODUCTO_TEMPORADA" FromRole="TEMPORADA" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="CATEGORIA">
+          <Key>
+            <PropertyRef Name="ID_CATEGORIA" />
+          </Key>
+          <Property Name="ID_CATEGORIA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="URL_IMAGEN" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="DB_MMCModel.FK_PRODUCTO_CATEGORIA" FromRole="CATEGORIA" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_PRODUCTO" />
+          </Key>
+          <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_CATEGORIA" Type="Int32" Nullable="false" />
+          <Property Name="ID_TEMPORADA" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE_PRODUCTO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPCION" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PRECIO_PRODUCCION" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="PRECIO_VENTA" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="PROMEDIO_RESENA" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="STOCK_TOTAL" Type="Int32" Nullable="false" />
+          <Property Name="URL_IMAGEN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Int32" Nullable="false" />
+          <Property Name="TALLA" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DESCUENTO" Type="Int32" />
+          <NavigationProperty Name="CATEGORIA" Relationship="DB_MMCModel.FK_PRODUCTO_CATEGORIA" FromRole="PRODUCTO" ToRole="CATEGORIA" />
+          <NavigationProperty Name="DETALLE_VENTA" Relationship="DB_MMCModel.FK_BOLETA_PRODUCTO" FromRole="PRODUCTO" ToRole="DETALLE_VENTA" />
+          <NavigationProperty Name="TEMPORADA" Relationship="DB_MMCModel.FK_PRODUCTO_TEMPORADA" FromRole="PRODUCTO" ToRole="TEMPORADA" />
+          <NavigationProperty Name="RESENA" Relationship="DB_MMCModel.FK_RESENA_PRODUCTO" FromRole="PRODUCTO" ToRole="RESENA" />
+        </EntityType>
+        <Association Name="FK_PRODUCTO_CATEGORIA">
+          <End Type="DB_MMCModel.CATEGORIA" Role="CATEGORIA" Multiplicity="1" />
+          <End Type="DB_MMCModel.PRODUCTO" Role="PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIA">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOLETA_PRODUCTO">
+          <End Type="DB_MMCModel.PRODUCTO" Role="PRODUCTO" Multiplicity="1" />
+          <End Type="DB_MMCModel.DETALLE_VENTA" Role="DETALLE_VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Principal>
+            <Dependent Role="DETALLE_VENTA">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_TEMPORADA">
+          <End Type="DB_MMCModel.TEMPORADA" Role="TEMPORADA" Multiplicity="1" />
+          <End Type="DB_MMCModel.PRODUCTO" Role="PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEMPORADA">
+              <PropertyRef Name="ID_TEMPORADA" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="ID_TEMPORADA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RESENA_PRODUCTO">
+          <End Type="DB_MMCModel.PRODUCTO" Role="PRODUCTO" Multiplicity="1" />
+          <End Type="DB_MMCModel.RESENA" Role="RESENA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Principal>
+            <Dependent Role="RESENA">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VENTA">
+          <Key>
+            <PropertyRef Name="ID_VENTA" />
+          </Key>
+          <Property Name="ID_VENTA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="FECHA_HORA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TOTAL" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="ESTADO" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DETALLE_VENTA" Relationship="DB_MMCModel.FK_BOLETA_VENTA" FromRole="VENTA" ToRole="DETALLE_VENTA" />
+          <NavigationProperty Name="ENTREGA_PRODUCTO" Relationship="DB_MMCModel.FK_ENTREGAPROD_VENTA" FromRole="VENTA" ToRole="ENTREGA_PRODUCTO" />
+          <NavigationProperty Name="USUARIO" Relationship="DB_MMCModel.FK_VENTA_USUARIO" FromRole="VENTA" ToRole="USUARIO" />
+        </EntityType>
+        <Association Name="FK_BOLETA_VENTA">
+          <End Type="DB_MMCModel.VENTA" Role="VENTA" Multiplicity="1" />
+          <End Type="DB_MMCModel.DETALLE_VENTA" Role="DETALLE_VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Principal>
+            <Dependent Role="DETALLE_VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ENTREGA_PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_ENTREGA" />
+          </Key>
+          <Property Name="ID_ENTREGA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_VENTA" Type="Int32" Nullable="false" />
+          <Property Name="FECHA_SALIDA" Type="DateTime" Precision="3" />
+          <Property Name="FECHA_ENTREGA" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="VENTA" Relationship="DB_MMCModel.FK_ENTREGAPROD_VENTA" FromRole="ENTREGA_PRODUCTO" ToRole="VENTA" />
+        </EntityType>
+        <Association Name="FK_ENTREGAPROD_VENTA">
+          <End Type="DB_MMCModel.VENTA" Role="VENTA" Multiplicity="1" />
+          <End Type="DB_MMCModel.ENTREGA_PRODUCTO" Role="ENTREGA_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Principal>
+            <Dependent Role="ENTREGA_PRODUCTO">
+              <PropertyRef Name="ID_VENTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_emailproductos_Result">
+          <Property Type="String" Name="NOMBRE_PRODUCTO" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="CANTIDAD" Nullable="false" />
+          <Property Type="Decimal" Name="SUB_TOTAL" Nullable="false" Precision="10" Scale="2" />
+        </ComplexType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRES" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDOS" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMAIL" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PASSWORD" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DIRECCION" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EDAD" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="DNI" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="ID_ROL" Type="Int32" Nullable="false" />
+          <Property Name="FECHA_CREACION" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TOKEN_RECOVERY" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RESENA" Relationship="DB_MMCModel.FK_RESENA_USUARIO" FromRole="USUARIO" ToRole="RESENA" />
+          <NavigationProperty Name="ROLES" Relationship="DB_MMCModel.FK_USUARIO_ROLES" FromRole="USUARIO" ToRole="ROLES" />
+          <NavigationProperty Name="VENTA" Relationship="DB_MMCModel.FK_VENTA_USUARIO" FromRole="USUARIO" ToRole="VENTA" />
+        </EntityType>
+        <Association Name="FK_RESENA_USUARIO">
+          <End Type="DB_MMCModel.USUARIO" Role="USUARIO" Multiplicity="1" />
+          <End Type="DB_MMCModel.RESENA" Role="RESENA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="RESENA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIO_ROLES">
+          <End Type="DB_MMCModel.ROLES" Role="ROLES" Multiplicity="1" />
+          <End Type="DB_MMCModel.USUARIO" Role="USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="USUARIO">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENTA_USUARIO">
+          <End Type="DB_MMCModel.USUARIO" Role="USUARIO" Multiplicity="1" />
+          <End Type="DB_MMCModel.VENTA" Role="VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="VENTA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="listaProductos_Result">
+          <Property Type="Int32" Name="ID_PRODUCTO" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_PRODUCTO" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="PRECIO_VENTA" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="PRECIO_PRODUCCION" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="PROMEDIO_RESENA" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="NOM_TEMPORADA" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="STOCK_TOTAL" Nullable="false" />
+          <Property Type="String" Name="TALLA" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="DESCUENTO" Nullable="true" />
+        </ComplexType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_MMCModelStoreContainer" CdmEntityContainer="DB_MMCEntities1">
+          <EntitySetMapping Name="RESENA">
+            <EntityTypeMapping TypeName="DB_MMCModel.RESENA">
+              <MappingFragment StoreEntitySet="RESENA">
+                <ScalarProperty Name="ID_RESENA" ColumnName="ID_RESENA" />
+                <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="CALIFICACION" ColumnName="CALIFICACION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROLES">
+            <EntityTypeMapping TypeName="DB_MMCModel.ROLES">
+              <MappingFragment StoreEntitySet="ROLES">
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="ROL" ColumnName="ROL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETALLE_VENTA">
+            <EntityTypeMapping TypeName="DB_MMCModel.DETALLE_VENTA">
+              <MappingFragment StoreEntitySet="DETALLE_VENTA">
+                <ScalarProperty Name="SUB_TOTAL" ColumnName="SUB_TOTAL" />
+                <ScalarProperty Name="CANTIDAD" ColumnName="CANTIDAD" />
+                <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+                <ScalarProperty Name="ID_VENTA" ColumnName="ID_VENTA" />
+                <ScalarProperty Name="ID_ITEM" ColumnName="ID_ITEM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TEMPORADA">
+            <EntityTypeMapping TypeName="DB_MMCModel.TEMPORADA">
+              <MappingFragment StoreEntitySet="TEMPORADA">
+                <ScalarProperty Name="NOM_TEMPORADA" ColumnName="NOM_TEMPORADA" />
+                <ScalarProperty Name="ID_TEMPORADA" ColumnName="ID_TEMPORADA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CATEGORIA">
+            <EntityTypeMapping TypeName="DB_MMCModel.CATEGORIA">
+              <MappingFragment StoreEntitySet="CATEGORIA">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="URL_IMAGEN" ColumnName="URL_IMAGEN" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ID_CATEGORIA" ColumnName="ID_CATEGORIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_contarVentas" FunctionName="DB_MMCModel.Store.sp_contarVentas" />
+          <FunctionImportMapping FunctionImportName="sp_gananciasTienda" FunctionName="DB_MMCModel.Store.sp_gananciasTienda" />
+          <FunctionImportMapping FunctionImportName="sp_nuevosUsuarios" FunctionName="DB_MMCModel.Store.sp_nuevosUsuarios" />
+          <FunctionImportMapping FunctionImportName="sp_resena" FunctionName="DB_MMCModel.Store.sp_resena" />
+          <EntitySetMapping Name="PRODUCTO">
+            <EntityTypeMapping TypeName="DB_MMCModel.PRODUCTO">
+              <MappingFragment StoreEntitySet="PRODUCTO">
+                <ScalarProperty Name="DESCUENTO" ColumnName="DESCUENTO" />
+                <ScalarProperty Name="TALLA" ColumnName="TALLA" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="URL_IMAGEN" ColumnName="URL_IMAGEN" />
+                <ScalarProperty Name="STOCK_TOTAL" ColumnName="STOCK_TOTAL" />
+                <ScalarProperty Name="PROMEDIO_RESENA" ColumnName="PROMEDIO_RESENA" />
+                <ScalarProperty Name="PRECIO_VENTA" ColumnName="PRECIO_VENTA" />
+                <ScalarProperty Name="PRECIO_PRODUCCION" ColumnName="PRECIO_PRODUCCION" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="NOMBRE_PRODUCTO" ColumnName="NOMBRE_PRODUCTO" />
+                <ScalarProperty Name="ID_TEMPORADA" ColumnName="ID_TEMPORADA" />
+                <ScalarProperty Name="ID_CATEGORIA" ColumnName="ID_CATEGORIA" />
+                <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VENTA">
+            <EntityTypeMapping TypeName="DB_MMCModel.VENTA">
+              <MappingFragment StoreEntitySet="VENTA">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+                <ScalarProperty Name="FECHA_HORA" ColumnName="FECHA_HORA" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_VENTA" ColumnName="ID_VENTA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_confirmarventa" FunctionName="DB_MMCModel.Store.sp_confirmarventa" />
+          <FunctionImportMapping FunctionImportName="sp_generarventa" FunctionName="DB_MMCModel.Store.sp_generarventa" />
+          <FunctionImportMapping FunctionImportName="sp_insertdetalleventa" FunctionName="DB_MMCModel.Store.sp_insertdetalleventa" />
+          <EntitySetMapping Name="ENTREGA_PRODUCTO">
+            <EntityTypeMapping TypeName="DB_MMCModel.ENTREGA_PRODUCTO">
+              <MappingFragment StoreEntitySet="ENTREGA_PRODUCTO">
+                <ScalarProperty Name="FECHA_ENTREGA" ColumnName="FECHA_ENTREGA" />
+                <ScalarProperty Name="FECHA_SALIDA" ColumnName="FECHA_SALIDA" />
+                <ScalarProperty Name="ID_VENTA" ColumnName="ID_VENTA" />
+                <ScalarProperty Name="ID_ENTREGA" ColumnName="ID_ENTREGA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_emailproductos" FunctionName="DB_MMCModel.Store.sp_emailproductos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_MMCModel.sp_emailproductos_Result">
+                <ScalarProperty Name="NOMBRE_PRODUCTO" ColumnName="NOMBRE_PRODUCTO" />
+                <ScalarProperty Name="CANTIDAD" ColumnName="CANTIDAD" />
+                <ScalarProperty Name="SUB_TOTAL" ColumnName="SUB_TOTAL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_cancelarventa" FunctionName="DB_MMCModel.Store.sp_cancelarventa" />
+          <FunctionImportMapping FunctionImportName="sp_fechaentrega" FunctionName="DB_MMCModel.Store.sp_fechaentrega" />
+          <FunctionImportMapping FunctionImportName="sp_fechasalida" FunctionName="DB_MMCModel.Store.sp_fechasalida" />
+          <EntitySetMapping Name="USUARIO">
+            <EntityTypeMapping TypeName="DB_MMCModel.USUARIO">
+              <MappingFragment StoreEntitySet="USUARIO">
+                <ScalarProperty Name="TOKEN_RECOVERY" ColumnName="TOKEN_RECOVERY" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="EDAD" ColumnName="EDAD" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="listaProductos" FunctionName="DB_MMCModel.Store.listaProductos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_MMCModel.listaProductos_Result">
+                <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+                <ScalarProperty Name="NOMBRE_PRODUCTO" ColumnName="NOMBRE_PRODUCTO" />
+                <ScalarProperty Name="PRECIO_VENTA" ColumnName="PRECIO_VENTA" />
+                <ScalarProperty Name="PRECIO_PRODUCCION" ColumnName="PRECIO_PRODUCCION" />
+                <ScalarProperty Name="PROMEDIO_RESENA" ColumnName="PROMEDIO_RESENA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="NOM_TEMPORADA" ColumnName="NOM_TEMPORADA" />
+                <ScalarProperty Name="STOCK_TOTAL" ColumnName="STOCK_TOTAL" />
+                <ScalarProperty Name="TALLA" ColumnName="TALLA" />
+                <ScalarProperty Name="DESCUENTO" ColumnName="DESCUENTO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

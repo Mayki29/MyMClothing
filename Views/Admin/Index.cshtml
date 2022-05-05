@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Estadisticas";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var meses = ViewBag.Meses;
+    var ventas = ViewBag.Ventas;
+    var usuarios = ViewBag.Usuarios;
+
+    var Jmeses = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(meses));
+    var Jventas = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ventas));
+    var Jusuarios = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(usuarios));
+}
+
+<div class="row align-items-center text-white" style="justify-content: space-evenly">
+    <div class="col flex-grow-0 mt-3">
+        <div class="card" style="width: 18rem; background-color: rgba(8,102,198,1)">
+            <div class="card-body flex-row ">
+                <div class="row align-items-center">
+                    <div class="col-4">
+                        <i class="fas fa-shopping-cart" style="font-size:3rem"></i>
+                    </div>
+                    <div class="col-8">
+                        <p class="m-0" style="font-size: 0.8rem">Ventas de este mes:</p>
+                        <p class="card-text" style="font-size: 2rem">@ViewBag.Cventas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col flex-grow-0 mt-3">
+        <div class="card" style="width: 18rem; background-color: rgb(0,178,151)">
+            <div class="card-body flex-row">
+                <div class="row align-items-center">
+                    <div class="col-4">
+                        <i class="fas fa-shopping-bag" style="font-size:3rem"></i>
+                    </div>
+                    <div class="col-8">
+                        <p class="m-0" style="font-size: 0.8rem">Ganancias de este mes:</p>
+                        <p class="card-text" style="font-size: 2rem">S/@ViewBag.Cganancias</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col flex-grow-0 mt-3">
+        <div class="card" style="width: 18rem;background-color: rgb(220,53,69)">
+            <div class="card-body flex-row">
+                <div class="row align-items-center">
+                    <div class="col-4">
+                        <i class="fas fa-users" style="font-size:3rem"></i>
+                    </div>
+                    <div class="col-8">
+                        <p class="m-0" style="font-size: 0.8rem">Usuarios nuevos este mes:</p>
+                        <p class="card-text" style="font-size: 2rem">@ViewBag.Cusuarios</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<canvas class="mt-5" id="MiGrafica" width="300" height="150"></canvas>
+<script>
+
+    let miCanvas = document.getElementById("MiGrafica").getContext("2d");
+    var chart = new Chart(miCanvas,{
+        type:"line",
+        data: {
+            labels: @Jmeses,
+            datasets: [{
+                label: "Ventas por mes",
+                backgroundColor: "rgba(0,0,0,0)",
+                borderColor: "rgba(8,102,198,1)",
+                data:@Jventas},
+                {
+                    label: "Usuarios nuevos por mes",
+                    backgroundColor:"rgba(0,0,0,0)",
+                    borderColor: "rgb(220,53,69)",
+                    data:@Jusuarios
+                }
+            ]
+        }
+    })
+</script>

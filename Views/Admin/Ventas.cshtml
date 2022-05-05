@@ -1,0 +1,84 @@
+﻿@model List<MyMClothing.Models.ObViewModels.VentasViewModel>
+@{
+    ViewBag.Title = "Ventas";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Ventas</h2>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered table-responsive-lg">
+            <tr>
+                <th>#</th>
+                <th>Usuario</th>
+                <th>Correo</th>
+                <th>Fecha y hora</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+
+            </tr>
+
+            @foreach (var oElemento in Model)
+            {
+                <tr>
+                    <td>@oElemento.id_venta</td>
+                    <td>@oElemento.nombre_usuario</td>
+                    <td>@oElemento.correo</td>
+                    <td>@oElemento.fecha</td>
+                    <td>S/@oElemento.total</td>
+                    <td>@oElemento.estado</td>
+                    <td>
+                        <button onclick="document.location.href='@Url.Content("~/Admin/DetalleVenta/"+oElemento.id_venta)'" class="btn btn-primary"><i class="far fa-clipboard"></i></button>
+                        @if (oElemento.estado == "Completado")
+                        {
+                            <button class="btn btn-success" disabled><i class="fas fa-check"></i></button>
+                            <button class="btn btn-danger" disabled><i class="fas fa-minus-circle"></i></button>
+                        }
+                        else
+                        {
+                            <button onclick="jsConfirm(@oElemento.id_venta)" class="btn btn-success"><i class="fas fa-check"></i></button>
+                            <button onclick="jsCancel(@oElemento.id_venta)" class="btn btn-danger"><i class="fas fa-minus-circle"></i></button>
+                        }                        
+                    </td>
+                </tr>
+
+            }
+        </table>
+
+    </div>
+</div>
+<script>
+    function jsConfirm(id) {
+        if (confirm("¿Estas seguro de confirmar la venta?")) {
+            url = "@Url.Content("~/Admin/ConfirmarVenta")" + "/" + id;
+
+            $.post(url, function (data) {
+                if (data == 1) {
+                    document.location.href = "@Url.Content("~/Admin/Ventas")"
+                } else {
+                    alert("Ocurrio un error");
+                }
+
+            })
+        }
+    }
+
+    function jsCancel(id) {
+        if (confirm("¿Estas seguro de cancelar la venta?")) {
+            url = "@Url.Content("~/Admin/CancelarVenta")" + "/" + id;
+
+            $.post(url, function (data) {
+                if (data == 1) {
+                    document.location.href = "@Url.Content("~/Admin/Ventas")"
+                } else {
+                    alert("Ocurrio un error");
+                }
+
+            })
+        }
+    }
+</script>
+

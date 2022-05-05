@@ -1,0 +1,58 @@
+﻿@model List<MyMClothing.Models.ObViewModels.CategoriaViewModel>
+@{
+    ViewBag.Title = "Categorias";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Categorias</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <input type="button" class="btn btn-primary" onclick="document.location.href='@Url.Content("~/Admin/AgregarCategoria")'" value="Nuevo" />
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <tr>
+                <th>#</th>
+                <th>Categoria</th>
+                <th>Acciones</th>
+
+            </tr>
+
+            @foreach (var oElemento in Model)
+            {
+                <tr>
+                    <td>@oElemento.id</td>
+                    <td>@oElemento.nombre</td>
+                    <td>
+                        <button onclick="document.location.href='@Url.Content("~/Admin/EditarCategoria/"+oElemento.id)'" class="btn btn-success"><i class="fas fa-edit"></i></button>
+                        <button onclick="jsDelete(@oElemento.id)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        
+                    </td>
+                </tr>
+
+            }
+        </table>
+
+    </div>
+</div>
+<script>
+    function jsDelete(id) {
+        if (confirm("¿Estar seguro de eliminar esto?")) {
+            url = "@Url.Content("~/Admin/EliminarCategoria")" + "/" + id;
+
+            $.post(url, function (data) {
+                if (data == 1) {
+                    document.location.href = "@Url.Content("~/Admin/Categorias")"
+                } else {
+                    alert("Ocurrio un error");
+                }
+
+            })
+        }
+    }
+</script>
+

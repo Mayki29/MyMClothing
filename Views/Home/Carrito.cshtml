@@ -1,0 +1,176 @@
+﻿@model List<MyMClothing.Models.ObViewModels.ProductoViewModel>
+@using MyMClothing.Models
+@{
+    ViewBag.Title = "Carrito";
+    var ss = Session["Productos"];
+    decimal tot = 0;
+    USUARIO oUser = (USUARIO)Session["User"];
+}
+
+
+<div class="container">
+    @*<h2>Carrito</h2>*@
+    @if (Session["Productos"] == null)
+    {
+        <h3 class="my-5 text-center">Su carrito esta vacio</h3>
+        <div class="w-100 text-center">
+            <img class="img-fluid" src="~/img/carritovacio.png" />
+        </div>
+        
+    }
+    else
+    {
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-auto">
+
+                @foreach (var d in Model)
+                {
+                    <!-- TOTAL DE PRODUCTOS AGREGADOS-->
+                    <div class="col mb-4">
+                        <h6 class="col">
+                            Total (<span>@d.cantidad</span> productos)
+                        </h6>
+
+                    </div>
+                    <!--CUERPO DE PRODUCTO AGREGADO ORIGINAL -->
+                    <div class="row mb-4 px-4">
+                        <div class="col-md-5 col-lg-3 col-xl-3">
+                            <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
+                                <img class="img-fluid w-100" src="~/img/@d.img">
+
+                            </div>
+                        </div>
+
+                        <!--DETALLES -->
+                        <div class="col-md-7 col-lg-9 col-xl-9">
+                            <div>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h5>@d.nombreProd</h5>
+                                        <p class="mb-3 text-muted text-uppercase small">@d.categoria</p>
+
+                                        <p class="mb-3 text-muted text-uppercase small">Talla: @d.talla</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        @if (d.descuento != null)
+                                        {
+                                            <p class="text-muted"><s>S/. @d.precio_venta</s></p>
+
+                                            decimal desc = d.precio_venta - (d.precio_venta * (Convert.ToDecimal(d.descuento) / 100));
+                                            <p class="mb-3"><span><strong>S/. @desc.ToString("0.00")</strong></span></p>
+                                            tot += (decimal)(desc * d.cantidad);
+
+                                        }
+                                        else
+                                        {
+                                            <p class="mb-0"><span><strong>S/. @d.precio_venta</strong></span></p>
+                                            tot += (decimal)(d.precio_venta * d.cantidad);
+                                        }
+                                        
+                                    </div>
+                                    <div>
+                                        <a href="@Url.Content("~/Home/Carrito/"+d.id)" class="text-danger"><i class="far fa-trash-alt"></i> Quitar producto</a>
+                                        @*<button type="button" class="btn btn-ligh text-danger"> @Html.ActionLink("Eliminar", "Carrito", "Home", new { id = d.id }, null); <i class="fas fa-times"></i></button>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr />
+                }
+            </div>
+            <div class="col-lg-4 col-sm-auto mb-3 pl-4">
+                <div class="justify-content-around">
+                    <p>Total:</p>
+                    <h5>@tot.ToString("0.00")</h5>
+                </div>
+                @if (oUser == null)
+                {
+                    <button class="btn btn-success mt-2" id="btndesac">Comprar</button>
+                    <p class="text-danger mt-2" id="compalert"></p>
+                }
+                else
+                {
+                    <button class="btn btn-success mt-2" id="comprarprods" data-toggle="modal" data-target="#modalcomprar">Pedir productos</button>
+                }
+
+            </div>
+
+        </div>
+
+    }
+</div>
+<div class="modal fade" id="modalcomprar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-body">
+                <div class="row justify-content-center">
+					<div class="col d-flex flex-column align-items-center py-4">
+						<div id="confirmsend" hidden>
+							<div class="text-center" style="color:green">
+								<i class="far fa-check-circle" style="font-size: 3rem"></i>
+								<p>Su pedido ha sido enviado, nos pondremos en contacto con usted lo mas pronto posible</p>
+								<button class="btn btn-success" onclick="document.location.href='@Url.Content("~/Home/Index")'">Aceptar</button>
+							</div>
+						</div>
+						<div id="errorsend" hidden>
+							<div class="text-center" style="color:#ffc107">
+								<i class="far fa-check-circle" style="font-size: 3rem"></i>
+								<p>Su pedido ha sido enviado, pero no se pudo enviar el pedido a su correo. Nos pondremos en contacto con usted lo mas pronto posible</p>
+								<button class="btn btn-warning" onclick="document.location.href='@Url.Content("~/Home/Index")'">Aceptar</button>
+							</div>
+						</div>
+						<div id="proscomp" class="form w-100 px-3">
+
+							<div class="d-flex justify-content-center">
+								<div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
+									<span class="sr-only">Loading...</span>
+								</div>
+
+							</div>
+							<p class="text-center mt-3">Se esta procesando el pedido</p>
+
+						</div>
+
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#btndesac").click(function () {
+        $("#compalert").text("Debe iniciar sesion para poder comprar")
+
+    });
+
+    $("#comprarprods").click(function (a) {
+        $('#proscomp').show();
+        a.preventDefault();
+        var url = "@Url.Content("~/Home/Comprar")"
+        var data = $(this).serialize();
+
+        
+
+        $.get(url).done(function (data) {
+            if (data == "1") {
+                $('#proscomp').attr("hidden");
+                $('#proscomp').hide();
+                $('#confirmsend').removeAttr("hidden");
+            } else {
+				$('#proscomp').attr("hidden");
+				$('#proscomp').hide();
+				$('#errorsend').removeAttr("hidden");
+
+            }
+
+        });
+    });
+</script>

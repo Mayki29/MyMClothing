@@ -1,0 +1,35 @@
+﻿@model List <MyMClothing.Models.ObViewModels.DetalleVentaViewModel>
+@{
+    ViewBag.Title = "Detalle venta";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Detalle venta</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered table-responsive-lg">
+            <tr>
+                <th>#Producto</th>
+                <th>Nombre del producto</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+
+
+            </tr>
+
+            @foreach (var oElemento in Model)
+            {
+                <tr>
+                    <td>@oElemento.id_producto</td>
+                    <td>@oElemento.producto</td>
+                    <td>@oElemento.cantidad</td>
+                    <td>S/@oElemento.subtotal</td>
+
+                </tr>
+
+            }
+        </table>
+
+    </div>
+</div>
+

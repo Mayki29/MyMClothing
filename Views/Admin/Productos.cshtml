@@ -1,0 +1,134 @@
+﻿@model List<MyMClothing.Models.TableViewModels.ProductoTableViewModel>
+@{
+    ViewBag.Title = "Productos";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script>
+    $(document).ready(function() {
+		$('#tproductos > tbody').empty();
+    })
+	
+</script>
+
+<h2>Productos</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <input type="button" class="btn btn-primary" onclick="document.location.href='@Url.Content("~/Admin/AgregarProducto")'" value="Nuevo" />
+    </div>
+</div>
+<br />
+<input id="buscproducto" type="search" oninput="buscarProducto()" />
+<div class="row">
+    <div class="col-lg-12">
+        <table id="tproductos" class="table table-bordered table-responsive-lg">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Nombre del producto</th>
+					<th>Precio Venta</th>
+					<th>Precio Produccion</th>
+					<th>Talla</th>
+					<th>Calificacion</th>
+					<th>Categoria</th>
+					<th>Temporada</th>
+					<th>Stock</th>
+					<th>%</th>
+					<th>Acciones</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var oElemento in Model)
+				{
+					<tr>
+						<td>@oElemento.ID_Producto</td>
+						<td>@oElemento.Nombre</td>
+						<td>@oElemento.Precio_Venta</td>
+						<td>@oElemento.Precio_Produccion</td>
+						<td>@oElemento.Talla</td>
+						<td>@oElemento.Reseña</td>
+						<td>@oElemento.Categoria</td>
+						<td>@oElemento.Temporada</td>
+						<td>@oElemento.Stock</td>
+						<td>@oElemento.descuento</td>
+						<td>
+							<button onclick="document.location.href='@Url.Content("~/Admin/EditarProducto/" + oElemento.ID_Producto)'" class="btn btn-success"><i class="fas fa-edit"></i></button>
+							<button onclick="jsDelete(@oElemento.ID_Producto)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+							<button onclick="iddesc(@oElemento.ID_Producto)" class="btn btn-info" data-toggle="modal" data-target="#Desc"><i class="fas fa-percent"></i></button>
+						</td>
+					</tr>
+
+				}
+			</tbody>
+        </table>
+
+    </div>
+</div>
+<div class="modal fade mt-5" id="Desc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Descuento producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-auto">
+                @using (Html.BeginForm("AplicarDescuento", "Admin", FormMethod.Get, new { role = "form", @class = "" }))
+                {
+                    <input type="hidden" name="id" id="iddesc" value="" />
+                    <label>Descuento</label><br>
+                    <input class="form-control" name="cantidad" type="text" required><br>
+                    <div>
+                        <button id="quitardesc" type="button" class="btn btn-danger">Quitar descuento</button>
+                        <button type="submit" class="btn btn-primary">Añadir descuento</button>
+                    </div>
+                }
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+                
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function jsDelete(id) {
+        if (confirm("¿Estar seguro de eliminar esto?")) {
+            url = "@Url.Content("~/Admin/EliminarProducto")" + "/" + id;
+
+            $.post(url, function (data) {
+                if (data == 1) {
+                    document.location.href = '@Url.Content("~/Admin/Productos")'
+                } else {
+                    alert("Ocurrio un error");
+                }
+
+            })
+        }
+    }
+
+    function iddesc(id) {
+        $("#iddesc").val(id);
+        $("#quitardesc").click(function () {
+            document.location.href = '@Url.Content("~/Admin/QuitarDescuento/")' + '/' + id
+         })
+    }
+
+    function buscarProducto() {
+		
+        var txtb = $("#buscproducto").val();
+        parametros = {
+            txtbusqueda: txtb
+		}
+        url = '@Url.Content("~/Admin/Productos")'
+        $.post(url, parametros, function (data) {
+            
+            alert(txtb);
+		})
+	}
+</script>

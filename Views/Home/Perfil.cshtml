@@ -1,0 +1,123 @@
+﻿@model MyMClothing.Models.ObViewModels.UserViewModelPer
+@{
+    ViewBag.Title = "Perfil";
+    var errorac = ViewBag.ErrorAc;
+}
+
+<main>
+    <div class="container">
+
+        <!--Grid row-->
+        <div class="row mt-5">
+
+            <!--Grid column-->
+
+            <div class="col-md-8 mx-auto">
+
+                <h2 class="text-center">MI CUENTA</h2>
+
+                <div class="row mb-4 mt-5">
+                    <div class="col-md-5 col-lg-3 col-xl-3">
+                        
+                    </div>
+
+                    <!--INFORMACION -->
+					<div class="col-md-7 col-lg-9 col-xl-9">
+						<div>
+							<div class="d-flex justify-content-between">
+								<div class="position-absolute" style="right: 0;">
+									<button type="button" class="btn" data-toggle="modal" data-target="#Editar">
+										<i class="fas fa-edit fa-lg"></i>
+									</button>
+								</div>
+								<div>
+									<h5>@Model.Nombres</h5>
+									<h5>@Model.Apellidos</h5>
+									<p class="mb-3 text-muted text-uppercase">@Model.Edad años</p>
+
+									<p class="mb-3 text-muted">@Model.Direccion</p>
+									<p class="mb-3 text-muted text-uppercase ">DNI @Model.Dni</p>
+									<p class="mb-3 text-muted text-uppercase "></p>
+								</div>
+
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<div>
+									<p class="mb-0 mb-3 text-muted"><span><strong>@Model.Email</strong></span></p>
+								</div>
+
+
+
+							</div>
+						</div>
+
+						<div>
+							<p class="text-danger">@errorac</p>
+						</div>
+
+					</div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    L
+
+
+
+    <!-- Modal editar -->
+    <div class="modal fade mt-5" id="Editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Informacion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+				<div class="modal-body mx-auto">
+					@using (Html.BeginForm("Perfil", "Home", FormMethod.Post, new { role = "form", @class = "" }))
+					{
+						@Html.AntiForgeryToken()
+
+						@Html.ValidationMessage("Error", new { @class = "text-danger" })
+
+						@Html.HiddenFor(d => d.id);
+
+						@Html.LabelFor(d => d.Nombres)
+						@Html.TextBoxFor(d => d.Nombres, new { @class = "form-control", required = "required", maxlength = "20" })
+						@Html.ValidationMessage("Nombres", new { @class = "text-danger" })<br />
+
+						@Html.LabelFor(d => d.Apellidos)
+						@Html.TextBoxFor(d => d.Apellidos, new { @class = "form-control", required = "required", maxlength = "20" })
+						@Html.ValidationMessage("Apellidos", new { @class = "text-danger" })<br />
+
+						@Html.LabelFor(d => d.Edad)
+						@Html.TextBoxFor(d => d.Edad, new { @class = "form-control", required = "required", maxlength = "2" })
+						@Html.ValidationMessage("Edad", new { @class = "text-danger" })<br />
+
+						@Html.LabelFor(d => d.Direccion)
+						@Html.TextBoxFor(d => d.Direccion, new { @class = "form-control", required = "required", maxlength = "100" })
+						@Html.ValidationMessage("Direccion", new { @class = "text-danger" })<br />
+
+						@Html.LabelFor(d => d.Dni)
+						@Html.TextBoxFor(d => d.Dni, new { @class = "form-control", required = "required", maxlength = "8", minlength = "8" })
+						@Html.ValidationMessage("Dni", new { @class = "text-danger" })<br />
+
+						@Html.LabelFor(d => d.Email)
+						@Html.TextBoxFor(d => d.Email, new { @class = "form-control", required = "required", maxlength = "100" })
+						@Html.ValidationMessage("Email", new { @class = "text-danger" })<br />
+
+
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+							<button type="submit" class="btn btn-primary">Guardar cambios</button>
+						</div>
+					}
+				</div>
+            </div>
+        </div>
+    </div>
+</main>

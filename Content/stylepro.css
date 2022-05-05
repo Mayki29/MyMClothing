@@ -1,0 +1,118 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Roboto:wght@300;400&display=swap');
+
+body {
+    padding: 0
+}
+
+.nav-d {
+    background-color: #232323 !important;
+}
+
+.footer-d {
+    background-color: #232323 !important;
+}
+
+.image-container {
+    background: url('../img/log4.jpg') center no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+.image-product-cat{
+    height: 20rem;
+    object-fit: cover;
+}
+.image-product-cont{
+    height: 33rem;
+}
+.form-container {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    justify-content: center;
+}
+
+.form-box h3 {
+    font-weight: bold;
+}
+
+.form-box .form-box {
+    position: relative;
+}
+
+.form-c-i {
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+.nom-prod {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.90rem;
+    color: #212121;
+}
+
+.prec:hover {
+    color: #212121 !important;
+    text-decoration: none !important;
+}
+/*.marg-cont{
+    margin-top: 
+}*/
+.img-log {
+    height: 20px;
+}
+
+.log-align-center {
+    display: flex;
+    align-items: center;
+}
+
+.img-banner {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+.nv{
+    background-color: #212121;
+}
+.cont-g {
+    overflow-y: auto;
+}
+
+.fij{
+    left:0 !important;
+}
+
+
+.rating {
+    list-style: none;
+    padding: 0;
+}
+
+.rating li {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.descuento {
+    position: absolute;
+    right: 0;
+    background: #ff8000;
+    font-weight: 600;
+    color: #fff;
+    padding: 0px 10px
+}
+
+.tachado {
+    text-decoration: line-through;
+}
+.btncolor {
+    background-color: #e6cbb6bb;
+}
+

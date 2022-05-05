@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/img/favicon.jpg" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js" integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css" integrity="sha512-C7hOmCgGzihKXzyPU/z4nv97W0d9bv4ALuuEbSf6hm93myico9qa0hv4dODThvCsqQUmKmLcJmlpRmCaApr83g==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" integrity="sha512-hZf9Qhp3rlDJBvAKvmiG+goaaKRZA6LKUO35oK6EsM0/kjPK32Yw7URqrq3Q+Nvbbt8Usss+IekL7CRn83dYmw==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/d246a04ec4.js" crossorigin="anonymous"></script>
+    <title>M&M Clothing | | @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <div class="border-right bc" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center"><img class="logo-supr" src="~/img/logo-v-b.png"/></div>
+            <div class="list-group list-group-flush" style="color: white;">
+                <a href="@Url.Content("~/Admin/Index")" class="list-group-item list-group-item-action bc ahov"><i class="fas fa-chart-bar mr-2"></i>Estadisticas</a>
+                <a href="@Url.Content("~/Admin/Productos")" class="list-group-item list-group-item-action bc ahov"><i class="fas fa-tshirt mr-2"></i>Productos</a>
+                <a href="@Url.Content("~/Admin/Categorias")" class="list-group-item list-group-item-action bc ahov"><i class="fas fa-tag mr-2"></i>Categorias</a>
+                <a href="@Url.Content("~/Admin/Ventas")" class="list-group-item list-group-item-action bc ahov"><i class="fas fa-cash-register mr-2"></i>Ventas</a>
+                <a href="@Url.Content("~/Admin/Pedidos")" class="list-group-item list-group-item-action bc ahov"><i class="fas fa-truck mr-2"></i>Pedidos</a>
+                <a href="@Url.Content("~/Home/Index")" class="list-group-item bc mt-3"><i class="fas fa-long-arrow-alt-left mr-2" ></i>Regresar al inicio</a>
+            </div>
+        </div>
+
+        <div id="page-content-wrapper">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button class="btn bc btn-bc" id="menu-toggle"><i class="fas fa-bars"></i></button>
+            </nav>
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+
+        </div>
+    </div>
+
+
+    @*<div class="row">
+            <div class="col-lg-3 col-md-3 d-none d-md-block position-fixed bc min-vh-100 pr-0">
+                <div class="logo-supr">
+                    <a href="@Url.Content("~/Home/Index")" class="text-decoration-none"><h4 class="text-light p-3">M&M</h4></a>
+                </div>
+                <div class="menu">
+                    <a class="d-block p-3 text-light ahov" href="@Url.Content("~/Admin/Index")"><i class="fas fa-home mr-2"></i>Inicio</a>
+                    <a class="d-block p-3 text-light ahov" href="@Url.Content("~/Admin/Productos")"><i class="fas fa-tshirt mr-2"></i>Productos</a>
+                    <a class="d-block p-3 text-light ahov" href="@Url.Content("~/Admin/Categorias")"><i class="fas fa-tag mr-2"></i>Categorias</a>
+                    <a class="d-block p-3 text-light ahov" href="#"><i class="fas fa-cash-register mr-2"></i>Ventas</a>
+                    <a class="d-block p-3 text-light ahov" href="#"><i class="fas fa-truck mr-2"></i>Pedidos</a>
+
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-9 ml-auto pt-3">
+
+            </div>
+        </div>*@
+
+
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+</body>
+</html>

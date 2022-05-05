@@ -1,0 +1,160 @@
+﻿@model MyMClothing.Models.ObViewModels.UserViewModel
+@{
+    ViewBag.Title = "Registrarse";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 d-none d-md-block image-container position-fixed">
+
+        </div>
+        <!--<img class="img-fluid" src="~/img/log2.jpg" />-->
+        <div class="col-lg-4 col-md-4 form-container ml-auto pb-5">
+            <div class="col-lg-8 col-md-12 col-sm-9 col-xs-12 form-box ">
+                <a href="@Url.Content("~/Home/Index")" class="text-black-50 text-decoration-none mt-5"><i class="fas fa-long-arrow-alt-left mr-2"></i>Regresar al inicio</a>
+                <div class="logo-log mb-3 text-center">
+                    <a href="@Url.Content("~/Home/Index")">
+                        <img src="~/img/logo.jpg" width="150px" />
+                    </a>
+
+                </div>
+                <div class="alert-heading mb-4 text-center">
+                    <h3>Registrarse</h3>
+                </div>
+                @using (Html.BeginForm("Registrarse", "Acces", FormMethod.Post, new { role = "form", @class = "" }))
+                {
+                    //@Html.AntiForgeryToken()
+                    @Html.ValidationMessage("Error", new { @class = "text-danger" })
+                    <br />
+                    @Html.LabelFor(d => d.Nombres)
+                    @Html.TextBoxFor(d => d.Nombres, new { @class = "form-control", required = "required", maxlength = "20" })
+                    @Html.ValidationMessage("Nombres", new { @class = "text-danger" })
+                    <br />
+                    @Html.LabelFor(d => d.Apellidos)
+                    @Html.TextBoxFor(d => d.Apellidos, new { @class = "form-control", required = "required", maxlength = "20" })
+                    @Html.ValidationMessage("Apellidos", new { @class = "text-danger" })
+                    <br />
+                    @Html.LabelFor(d => d.Edad)
+                    @Html.TextBoxFor(d => d.Edad, new { @class = "form-control", required = "required", maxlength = "2" })
+                    @Html.ValidationMessage("Edad", new { @class = "text-danger" })
+                    <br />
+                    @Html.LabelFor(d => d.Direccion)
+                    @Html.TextBoxFor(d => d.Direccion, new { @class = "form-control", required = "required", maxlength = "100" })
+                    @Html.ValidationMessage("Direccion", new { @class = "text-danger" })
+                    <br />
+                    @Html.LabelFor(d => d.Dni)
+                    @Html.TextBoxFor(d => d.Dni, new { @class = "form-control", required = "required", maxlength = "8", minlength = "8" })
+                    @Html.ValidationMessage("Dni", new { @class = "text-danger" })
+                    <br />
+                    @Html.LabelFor(d => d.Email)
+                    @Html.TextBoxFor(d => d.Email, new { @class = "form-control", required = "required", maxlength = "100" })
+                    @Html.ValidationMessage("Email", new { @class = "text-danger" })
+                    <br />
+                    @Html.LabelFor(d => d.Password)
+                    @Html.PasswordFor(d => d.Password, new { @class = "form-control", required = "required", minlength = "6", maxlength = "20" })
+                    @Html.ValidationMessage("Password", new { @class = "text-danger" })
+                    <br />
+                    @Html.LabelFor(d => d.ConfirmPassword)
+                    @Html.PasswordFor(d => d.ConfirmPassword, new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessage("ConfirmPassword", new { @class = "text-danger" })
+                    <br />
+                    <div class="mt-2">
+                        <button type="submit" class="btn btn-primary">Registrarse</button>
+                    </div>
+
+                }
+                @*<form id="frinicio" class="form-c-i">
+            <div class="w-100">
+                <div class="form-group w-100">
+                    <label class="font-weight-bold" for="exampleInputEmail1">Nombres</label>
+                    <input type="text" class="form-control" name="nombres" aria-describedby="emailHelp">
+
+                </div>
+                <div class="form-group w-100">
+                    <label class="font-weight-bold" for="exampleInputEmail1">Apellidos</label>
+                    <input type="text" class="form-control" name="apellidos" aria-describedby="emailHelp">
+
+                </div>
+                <div class="form-group w-100">
+                    <label class="font-weight-bold" for="exampleInputEmail1">Edad</label>
+                    <input type="text" class="form-control" name="edad" aria-describedby="emailHelp">
+
+                </div>
+                <div class="form-group w-100">
+                    <label class="font-weight-bold" for="exampleInputEmail1">Direccion</label>
+                    <input type="text" class="form-control" name="direccion" aria-describedby="emailHelp">
+
+                </div>
+                <div class="form-group w-100">
+                    <label class="font-weight-bold" for="exampleInputEmail1">Email</label>
+                    <input type="email" class="form-control" name="correo" aria-describedby="emailHelp">
+
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold" for="exampleInputPassword1">Contraseña</label>
+                    <input type="password" class="form-control " name="password">
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold" for="exampleInputPassword1">Contraseña</label>
+                    <input type="password" class="form-control " name="password">
+                    <a href="#" class="text-decoration-none"><small id="emailHelp" class="form-text">¿Has olvidado tu contraseña?</small></a>
+                </div>
+
+
+                <br />
+                <div class="mt-2">
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                </div>
+
+            </div>
+
+        </form>*@
+                <!--<form id="frinicio">
+        <div class="form-c-i">
+            <div class="w-100 text-left">
+                <label class="col-form-label">Correo</label>
+            </div>
+            <input type="email" class="form-control" name="correo" /><br />
+            Contraseña<br />
+            <input type="password" class="form-control" name="password" />
+            <br />
+            <text id="errorinicio" class="text-danger"></text>
+            <br />
+        </div>
+
+        <input type="submit" class="btn btn-success" value="Ingresar" />
+    </form>-->
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#frinicio").submit(function (e) {
+                e.preventDefault();
+
+                url = "@Url.Content("~/Acces/IniciarSesion")"
+                parametros = $(this).serialize();
+
+                $.post(url, parametros, function (data) {
+                    if (data == "correcto") {
+                        document.location.href = "@Url.Content("~/")";
+                    }
+                    else {
+                        $("#errorinicio").text(data);
+                    }
+                })
+            })
+        })
+
+    </script>
+
+
+}
+

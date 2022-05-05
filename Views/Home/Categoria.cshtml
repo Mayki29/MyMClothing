@@ -1,0 +1,70 @@
+﻿@model List<MyMClothing.Models.ObViewModels.ProductoViewModel>
+@{
+    ViewBag.Title = "Categoria";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        @foreach (var prod in Model)
+        {
+            <div class="col-md-3 mb-3">
+                @if (prod.descuento != null)
+                {
+                    <div class="position-absolute top-50 start-50" style="right: 0">
+                        <h5 class="bg-warning p-1 ">-@prod.descuento%</h5>
+                    </div>
+                }
+
+                <div class="shadow image-product-cont mb-5 bg-white rounded">
+
+                    <div class="view zoom overlay z-depth-2 rounded">
+
+                        <a href="/home/Producto/@prod.id">
+                            <div class="mask">
+                                <img class="img-fluid w-100 image-product-cat" src="~/img/@prod.img">
+                                <div class="mask rgba-black-slight"></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="text-center py-4">
+
+                        <h5>@prod.nombreProd</h5>
+                        <p class="mb-2 text-muted text-uppercase small">@prod.categoria</p>
+
+
+                        <div class="ratings" data-rating="@prod.prom">
+                            <div id="star-@prod.id" class="starrr star-desac"></div>
+                        </div>
+
+
+                        <hr>
+                        @if (prod.descuento != null)
+                        {
+                            <h6 class="text-muted"><s>S/. @prod.precio_venta</s></h6>
+
+                            decimal desc = prod.precio_venta - (prod.precio_venta * (Convert.ToDecimal(prod.descuento) / 100));
+                            <h6 class="mb-3">S/. @desc.ToString("0.00")</h6>
+
+                        }
+                        else
+                        {
+                            <h6 class="mb-3">S/. @prod.precio_venta</h6>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+<script>
+        $('.starrr').starrr();
+        var ratings = document.getElementsByClassName("ratings");
+        for (var a = 0; a < ratings.length; a++) {
+            $(ratings[a]).starrr({
+                rating: ratings[a].getAttribute("data-rating")
+            })
+        }
+</script>

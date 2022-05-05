@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "Iniciar Sesion";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 d-none d-md-block image-container">
+        </div>
+        <div class="col-lg-4 col-md-4 form-container">
+            
+            <div class="col-lg-8 col-md-12 col-sm-9 col-xs-12 form-box py-5">
+                <a href="@Url.Content("~/Home/Index")" class="text-black-50 text-decoration-none"><i class="fas fa-long-arrow-alt-left mr-2"></i>Regresar al inicio</a>
+                <div class="logo-log mb-3 text-center">
+                    <img src="~/img/logo.jpg" width="150px" />
+                </div>
+                <div>
+                    @Html.Raw(ViewBag.Message)
+                </div>
+                <div>
+                    @Html.Raw(ViewBag.Error)
+                </div>
+                <div class="alert-heading mb-4 text-center">
+                    <h3>Iniciar Sesión</h3>
+                </div>
+                <form id="frinicio" class="form-c-i">
+                    <div class="w-100">
+                        <div class="form-group w-100">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Email</label>
+                            <input type="email" class="form-control" name="correo" aria-describedby="emailHelp">
+
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputPassword1">Contraseña</label>
+                            <input type="password" class="form-control " name="password">
+                            <a @*href="@Url.Content("~/Acces/startRecovery")"*@ class="text-decoration-none" style="cursor:pointer" data-toggle="modal" data-target="#recuperarpass"><small id="emailHelp" class="form-text">¿Has olvidado tu contraseña?</small></a>
+                        </div>
+                        <text id="errorinicio" class="text-danger"></text>
+                        <br />
+                        <div class="mt-2">
+                            <button type="submit" class="btn btn-primary">Ingresar</button>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+    @*Modal*@
+    <div class="modal fade" id="recuperarpass" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Recuperar Contraseña</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col d-flex flex-column align-items-center py-4">
+                            <div id="confirmsend"></div>
+                            <div class="form w-100 px-3">
+
+                                <form id="frrecuperar" class="d-flex flex-column">
+                                    <div class="form-group">
+                                        <label>Escribe tu correo electronico</label>
+                                        <input type="email" name="correorec" class="form-control" required />
+                                        <p id="errorrec" class="text-danger my-1"></p>
+                                        <br />
+                                        <div>
+                                            <button id="btnrecc" type="submit" class="btn btn-primary" >
+                                                <span id="load-rec" class="" role="status" aria-hidden="true"></span>
+                                                <span id="txt-btn-rec">Recuperar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#frinicio").submit(function (e) {
+                e.preventDefault();
+
+                url = "@Url.Content("~/Acces/IniciarSesion")"
+                parametros = $(this).serialize();
+
+                $.post(url, parametros, function (data) {
+                    if (data == "correcto") {
+                        document.location.href = "@Url.Content("~/")";
+                    }
+                    else {
+                        $("#errorinicio").text(data);
+                    }
+                });
+            });
+
+            $("#frrecuperar").submit(function (a) {
+                a.preventDefault();
+                var url = "@Url.Content("~/Acces/startRecovery")";
+                var data = $(this).serialize();
+                $('#errorrec').empty();
+                $('#confirmsend').empty();
+                $('#btnrecc').attr("disabled", true);
+                $("#load-rec").addClass("spinner-border spinner-border-sm");
+                $("#txt-btn-rec").empty();
+                $("#txt-btn-rec").html("Enviando");
+                
+                $.post(url, data).done(function (data) {
+                    //alert(data);
+                    if (data == "0") {
+                        $('#btnrecc').attr("disabled", false);
+                        $("#load-rec").removeClass("spinner-border spinner-border-sm");
+                        $("#txt-btn-rec").empty();
+                        $("#txt-btn-rec").html("Recuperar");
+                        $('#errorrec').text('Este correo electronico no esta registrado');
+                    } else {
+                        $('#btnrecc').attr("disabled", false);
+                        $("#load-rec").removeClass("spinner-border spinner-border-sm");
+                        $("#txt-btn-rec").empty();
+                        $("#txt-btn-rec").html("Recuperar");
+                        $('#confirmsend').html(data);
+
+                    }
+
+                });
+
+            });
+        });
+    </script>
+
+
+}

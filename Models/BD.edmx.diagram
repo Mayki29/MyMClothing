@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e505ded07b084ee8aad49588db13623d" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="DB_MMCModel.RESENA" Width="1.5" PointX="5.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_MMCModel.ROLES" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_MMCModel.DETALLE_VENTA" Width="1.5" PointX="7.5" PointY="2.875" />
+        <EntityTypeShape EntityType="DB_MMCModel.TEMPORADA" Width="1.5" PointX="1" PointY="0.75" />
+        <EntityTypeShape EntityType="DB_MMCModel.CATEGORIA" Width="1.5" PointX="0.875" PointY="2.875" />
+        <EntityTypeShape EntityType="DB_MMCModel.PRODUCTO" Width="1.5" PointX="3.25" PointY="0.75" />
+        <AssociationConnector Association="DB_MMCModel.FK_PRODUCTO_CATEGORIA" />
+        <AssociationConnector Association="DB_MMCModel.FK_BOLETA_PRODUCTO" />
+        <AssociationConnector Association="DB_MMCModel.FK_PRODUCTO_TEMPORADA" />
+        <AssociationConnector Association="DB_MMCModel.FK_RESENA_PRODUCTO" />
+        <EntityTypeShape EntityType="DB_MMCModel.VENTA" Width="1.5" PointX="5.125" PointY="8.5" />
+        <AssociationConnector Association="DB_MMCModel.FK_BOLETA_VENTA" />
+        <EntityTypeShape EntityType="DB_MMCModel.ENTREGA_PRODUCTO" Width="1.5" PointX="7.375" PointY="8.75" />
+        <AssociationConnector Association="DB_MMCModel.FK_ENTREGAPROD_VENTA" />
+        <EntityTypeShape EntityType="DB_MMCModel.USUARIO" Width="1.5" PointX="3" PointY="12.375" />
+        <AssociationConnector Association="DB_MMCModel.FK_RESENA_USUARIO" />
+        <AssociationConnector Association="DB_MMCModel.FK_USUARIO_ROLES" />
+        <AssociationConnector Association="DB_MMCModel.FK_VENTA_USUARIO" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

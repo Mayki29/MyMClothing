@@ -1,0 +1,31 @@
+﻿@model MyMClothing.Models.ObViewModels.AddCategoriaViewModel
+@{
+    ViewBag.Title = "Agregar categoria";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Agregar categoria</h2>
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("AgregarCategoria", "Admin", FormMethod.Post, new { role = "form", @class = "", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationMessage("Error", new { @class = "text-danger" })
+
+            @Html.LabelFor(d => d.Nombre)
+            @Html.TextBoxFor(d => d.Nombre, new { @class = "form-control", required = "required", maxlength = "20" })
+            @Html.ValidationMessage("Nombre", new { @class = "text-danger" })<br />
+
+
+            @Html.LabelFor(d => d.Url_imagen)
+            @Html.TextBoxFor(d => d.Url_imagen, new { @class = "form-control", required = "required", type = "file", accept = "image/*" })
+            @Html.ValidationMessage("Url_Imagen", new { @class = "text-danger" })<br />
+
+            <div style="text-align:right;">
+                <input type="submit" class="btn btn-success" value="Guardar" />
+            </div>
+        }
+    </div>
+</div>
+

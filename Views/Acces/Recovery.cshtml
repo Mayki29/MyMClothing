@@ -1,0 +1,30 @@
+﻿@model MyMClothing.Models.ObViewModels.RecoveryPasswordViewModel
+@{
+    ViewBag.Title = "Reestablecer contraseña";
+}
+
+<div class="row justify-content-center p-5 mx-0">
+    <div class="col-md-4 col-md-offset-3">
+        <div class="form">
+            <form action="@Url.Content("~/Acces/Recovery")" method="post">
+                @Html.HiddenFor(d => d.token)
+
+
+                <label>Escribe tu nueva contraseña</label>
+                @Html.PasswordFor(d => d.Password, new { @class = "form-control", minlength = "6", maxlength = "20", required = "required" })
+                @Html.ValidationMessageFor(d => d.Password, null, new { style = "color:red" })
+                <br />
+
+                <label>Vuelve a escribir la contraseña</label>
+                @Html.PasswordFor(d => d.ConfirmPassword, new { @class = "form-control", required = "required" })
+                @Html.ValidationMessageFor(d => d.ConfirmPassword, null, new { style = "color:red" })
+                <br />
+                <div @*class="text-right"*@>
+                    <button class="btn btn-primary">Recuperar</button> 
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+

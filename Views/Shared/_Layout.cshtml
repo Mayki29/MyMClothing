@@ -1,0 +1,162 @@
+﻿@using MyMClothing.Models;
+@{
+    USUARIO oUser = (USUARIO)HttpContext.Current.Session["User"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/img/favicon.jpg" />
+    <script src="https://kit.fontawesome.com/d246a04ec4.js" crossorigin="anonymous"></script>
+    <title>M&M Clothing | | @ViewBag.Title</title>
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <link href="~/Content/starrr.css" rel=stylesheet />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/starrr.js"></script>
+
+
+</head>
+<body style="background-color:#f4f4f4">
+    <nav class="navbar navbar-expand-lg navbar-dark nav-d">
+        <a class="navbar-brand log-align-center" href="@Url.Content("~/Home/Index")"><img class="img-log" src="~/img/logo-h-b.png" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Content("~/Home/Index")">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Content("~/Home/Catalogo")">Categoria</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Content("~/Home/CatalogoCompleto")">Catalogo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Content("~/Home/Descuento")">Descuentos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Content("~/Home/Nosotros")">Nosotros</a>
+                </li>
+                @if (oUser != null && oUser.ID_ROL == 1)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Content("~/Admin/Index")">Mantenimiento</a>
+                    </li>
+                }
+
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Content("~/Home/Carrito")" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-shopping-cart"></i><span> Mis productos</span></a>
+                </li>
+                
+
+                @if (oUser != null)
+                {
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="far fa-user ml-2"></i><span> Hola @oUser.NOMBRES</span></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+
+                            <a class="dropdown-item" href="@Url.Content("~/Home/Perfil")">Perfil</a>
+                            <a class="dropdown-item" href="@Url.Content("~/Cerrar/CerrarSesion")">Cerrar Sesion</a>
+
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="far fa-user ml-2"></i><span> Identificarse</span></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+
+                            <a class="dropdown-item" href="@Url.Content("~/Acces/Index")">Iniciar Sesion</a>
+                            <a class="dropdown-item" href="@Url.Content("~/Acces/Registrarse")">Registrarse</a>
+
+                        </div>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </nav>
+    <div class="pad-bod" >
+        @RenderBody()
+
+    </div>
+    
+    <footer class="page-footer font-small bc">
+        <div class="container text-center text-md-left pt-4 pt-md-5">
+            <div class="row mt-1 mt-md-0 mb-4 mb-md-0">
+                <div class="col-md-3 mx-auto mt-3 mt-md-0 mb-0 mb-md-4">
+
+                    <h5 class="text-white">Más información </h5>
+                    <hr class="color-primary mb-4 mt-0 d-inline-block mx-auto w-60">
+
+                    <p class="foot-desc mb-0">
+                        Se encuentra ubicado en la calle lima en la galería Miami center Ica, Donde ofrecen todo tipo de vestuario femenino, como: zapatos, ropas deportivas, vestidos, accesorios, etc.
+
+                        La tienda también ofrece prendas a gusto del cliente, con modelos únicos.
+                    </p>
+
+                </div>
+                <hr class="clearfix w-100 d-md-none">
+                <hr class="clearfix w-100 d-md-none">
+                <div class="col-md-3 mx-auto mt-3 mt-md-0 mb-0 mb-md-4">
+
+                    <!-- Links -->
+                    <h5 class="text-white">Redes Sociales</h5>
+                    <hr class="color-primary mb-4 mt-0 d-inline-block mx-auto w-60">
+                    <ul class="row align-items-center p-0 mx-auto">
+                        <a href="https://www.facebook.com/DOBLEMCLOTHING/">
+                            <img src="https://img.icons8.com/fluent/000000/facebook-new.png" />
+                        </a>
+                        <a href="https://www.instagram.com/doblem_clothing/?hl=es-la">
+                            <img src="https://img.icons8.com/fluent/000000/instagram-new.png" />
+                        </a>
+                        <a href="https://api.whatsapp.com/send?phone=+51954144042"><img src="https://img.icons8.com/office/44/000000/whatsapp--v1.png" /></a>
+
+                    </ul>
+
+                </div>
+                <hr class="clearfix w-100 d-md-none">
+
+                <div class="col-md-3 mx-auto mt-3 mt-md-0 mb-0 mb-md-4">
+
+                    <!-- Links -->
+                    <h5 class="text-white">Contactos</h5>
+                    <hr class="color-primary mb-4 mt-0 d-inline-block mx-auto w-60">
+
+                    <ul class="fa-ul foot-desc ml-4">
+                        <li class="mb-2">
+                            <span class="fa-li"><i class="far fa-map"></i></span>Peru-Ica, Galeria miami center ica
+                        </li>
+                        <li class="mb-2"><span class="fa-li"><i class="fas fa-phone-alt"></i></span>+51 954 144 042</li>
+						<li class="mb-2"><span class="fa-li"><i class="far fa-envelope"></i></span>mymclothingproj@gmail.com</li>
+                        <li><span class="fa-li"><i class="far fa-clock"></i></span>Horario de atencion<br> L-D: 8 AM - 22PM</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-3">
+            <p>&copy; @DateTime.Now.Year M&M Clothing</p>
+        </div>
+
+
+    </footer>
+
+    
+    
+    @RenderSection("scripts", required: false)
+</body>
+</html>

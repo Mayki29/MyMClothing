@@ -1,0 +1,60 @@
+﻿@model MyMClothing.Models.ObViewModels.AddProductoViewModel
+@{
+    ViewBag.Title = "Agregar producto";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<SelectListItem> items1 = (List<SelectListItem>)ViewBag.items1;
+    List<SelectListItem> items2 = (List<SelectListItem>)ViewBag.items2;
+}
+
+<h2 class="mb-5">Agregar producto</h2>
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("AgregarProducto", "Admin", FormMethod.Post, new { role = "form", @class = "", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationMessage("Error", new { @class = "text-danger" })
+
+            @Html.LabelFor(d => d.Nombre)
+            @Html.TextBoxFor(d => d.Nombre, new { @class = "form-control", required = "required", maxlength = "50" })
+            @Html.ValidationMessage("Nombre", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(d => d.Descripcion)
+            @Html.TextAreaFor(d => d.Descripcion, new { @class = "form-control", required = "required", maxlength = "500" })
+            @Html.ValidationMessage("Descripcion", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(d => d.Talla)
+            @Html.TextBoxFor(d => d.Talla, new { @class = "form-control", required = "required", maxlength = "20" })
+            @Html.ValidationMessage("Talla", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(d => d.Precio_Venta)
+            @Html.TextBoxFor(d => d.Precio_Venta, new { @class = "form-control", required = "required" })
+            @Html.ValidationMessage("Precio_Venta", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(d => d.Precio_Produccion)
+            @Html.TextBoxFor(d => d.Precio_Produccion, new { @class = "form-control", required = "required" })
+            @Html.ValidationMessage("Precio_Produccion", new { @class = "text-danger" })<br />
+
+            <label>Categoria</label>
+            @Html.DropDownList("Categoria", items1, new { @class = "form-control" })
+            @Html.ValidationMessage("Categoria", new { @class = "text-danger" })<br />
+
+            <label>Temporada</label>
+            @Html.DropDownList("Temporada", items2, new { @class = "form-control" })
+            @Html.ValidationMessage("Temporada", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(d => d.Stock)
+            @Html.TextBoxFor(d => d.Stock, new { @class = "form-control", type = "number", required = "required", min = "0" })
+            @Html.ValidationMessage("Stock", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(d => d.Url_Imagen)
+            @Html.TextBoxFor(d => d.Url_Imagen, new { @class = "form-control", required = "required", type = "file", accept = "image/*"})
+            @Html.ValidationMessage("Url_Imagen", new { @class = "text-danger" })<br />
+
+            <div style="text-align:right;">
+                <input type="submit" class="btn btn-success" value="Guardar" />
+            </div>
+        }
+    </div>
+</div>
+

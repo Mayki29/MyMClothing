@@ -1,0 +1,75 @@
+﻿@model List<MyMClothing.Models.ObViewModels.PedidosViewModel>
+@{
+    ViewBag.Title = "Pedidos";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Pedidos</h2>
+
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered table-responsive-lg">
+            <tr>
+                <th>#</th>
+                <th>#Venta</th>
+                <th>Nombre cliente</th>
+                <th>Direccion del cliente</th>
+                <th>Fecha de salida</th>
+                <th>Fecha de entrega</th>
+                <th>Acciones</th>
+
+            </tr>
+
+            @foreach (var oElemento in Model)
+            {
+                <tr>
+                    <td>@oElemento.id_entrega</td>
+                    <td>@oElemento.id_venta</td>
+                    <td>@oElemento.nombre_cliente</td>
+                    <td>@oElemento.direccion</td>
+                    <td>@oElemento.fecha_salida</td>
+                    <td>@oElemento.fecha_entrega</td>
+
+                    <td>
+                        <button onclick="document.location.href='@Url.Content("~/Admin/DetalleVenta/"+oElemento.id_venta)'" class="btn btn-primary"><i class="far fa-clipboard"></i></button>
+                        <button onclick="jsSalida(@oElemento.id_venta)" class="btn btn-warning"><i class="fas fa-calendar-plus"></i></button>
+                        <button onclick="jsEntrega(@oElemento.id_venta)" class="btn btn-success"><i class="fas fa-calendar-check"></i></button>
+                    </td>
+                </tr>
+
+            }
+        </table>
+
+    </div>
+</div>
+<script>
+    function jsSalida(id) {
+        if (confirm("¿Estas seguro de establecer esta fecha y hora?")) {
+            url = "@Url.Content("~/Admin/FechaSalida")" + "/" + id;
+
+            $.post(url, function (data) {
+                if (data == 1) {
+                    document.location.href = "@Url.Content("~/Admin/Pedidos")"
+                } else {
+                    alert("Ocurrio un error");
+                }
+
+            })
+        }
+    }
+
+    function jsEntrega(id) {
+        if (confirm("¿Estas seguro de establecer esta fecha y hora?")) {
+            url = "@Url.Content("~/Admin/FechaEntrega")" + "/" + id;
+
+            $.post(url, function (data) {
+                if (data == 1) {
+                    document.location.href = "@Url.Content("~/Admin/Pedidos")"
+                } else {
+                    alert("Ocurrio un error");
+                }
+
+            })
+        }
+    }
+</script>

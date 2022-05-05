@@ -1,0 +1,140 @@
+﻿@model MyMClothing.Models.ObViewModels.ProductoViewModel
+@using MyMClothing.Models
+@{
+    ViewBag.Title = Model.nombreProd;
+    USUARIO oUser = (USUARIO)HttpContext.Current.Session["User"];
+    List<MyMClothing.Models.ObViewModels.CarritoViewModel> carrito = ViewBag.Carrito;
+}
+
+<div class="row p-5 m-0">
+
+    <div class="col-md-4 mb-2 mb-md-0">
+        <img src="~/img/@Model.img" class="img-fluid" style=" height:auto" />
+    </div>
+    <div class="col-md-8">
+
+        <h5>@Model.nombreProd</h5>
+        <p class="mb-2 text-muted text-uppercase small">@Model.categoria</p>
+        <p class="pt-1">
+            @Model.descripcion
+        </p>
+        <hr>
+        <h6>Talla</h6>
+        <div class="mt-1">
+            <p class="mb-3">@Model.talla</p>
+        </div>
+        <div>
+            <hr>
+            <h6>Calificacion</h6>
+            @if (oUser != null)
+            {
+                <div class="ratings" data-rating="@Model.prom">
+                    <div id="star-prod" class="starrr"></div><br />
+                    <button class="btn btn-warning mt-1" id="btncalificar">Enviar Calificacion</button>
+                    <br />
+                    <span id="confirm"></span>
+                </div>
+            }
+            else
+            {
+                <div id="star-prod" class="starrr star-desac"></div>
+            }
+
+        </div>
+        <div>
+
+
+            <hr>
+            <h6>Precio</h6>
+            <div class="mt-1">
+                @if (Model.descuento != null)
+                {
+                    <div><p class="mb-3 text-muted"><s>S/. @Model.precio_venta</s></p></div>
+                    decimal desc = Model.precio_venta - (Model.precio_venta * (Convert.ToDecimal(Model.descuento) / 100));
+                    <div><span>S/. @desc.ToString("0.00")</span><span class="ml-3" style="color:green"> -@Model.descuento%</span></div>
+
+                }
+                else
+                {
+                    <p class="mb-3">S/. @Model.precio_venta</p>
+                }
+
+
+
+            </div>
+            <hr>
+            <h6>Stock</h6>
+            <div class="mt-1">
+                <p class="mb-3">@Model.cantidad</p>
+            </div>
+            <hr>
+
+        </div>
+
+        <form action="@Url.Content("~/Home/Producto/"+Model.id)" method="get" id="@Model.id">
+            <h6>Cantidad</h6>
+
+            <div class="def-number-input number-input safari_only mb-0">
+                <input class="quantity" min="1" name="cantidad" value="1" max="@Model.cantidad" type="number">
+            </div>
+
+            @if (Model.cantidad == 0)
+            {
+                <button type="button" class="btn btn-danger btn-md mr-1 mb-2 mt-2 waves-effect waves-light disabled">
+                    <i class="fas fa-shopping-cart pr-2"></i>Stock agotado
+                </button>
+            }
+            else if (carrito != null && carrito.Contains(carrito.Find(c => c.id == Model.id)))
+            {
+                <button type="button" class="btn btn-success btn-md mr-1 mb-2 mt-2 waves-effect waves-light disabled">
+                    <i class="fas fa-shopping-cart pr-2"></i>Producto añadido
+                </button>
+            }
+            else
+            {
+                <button type="submit" id="@Model.id" class="btn btn-primary btn-md mr-1 mb-2 mt-2 waves-effect waves-light ">
+                    <i class="fas fa-shopping-cart pr-2"></i>Añadir al carrito
+                </button>
+            }
+        </form>
+    </div>
+
+</div>
+
+
+<script>
+    var calificacion;
+    var idproducto = @Model.id
+    @if(oUser != null)
+    {
+        @:var iduser = @oUser.ID_USUARIO
+    }
+
+    $('#star-prod').starrr({
+    rating: @Model.prom,
+        change: function (e, valor) {
+            calificacion = valor;
+            //alert(valor);
+        }
+    });
+
+    $(function () {
+        $("#btncalificar").click(function () {
+            var url = "@Url.Content("~/Home/Calificacion")";
+            var data = {
+                calificacion: calificacion,
+                idproducto: idproducto,
+                iduser: iduser
+            }
+            $('#confirm').empty();
+            $.post(url, data).done(function (data) {
+                //alert(data);
+                $('#confirm').html(data);
+            });
+
+        });
+    });
+
+
+
+</script>
